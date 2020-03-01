@@ -9,7 +9,7 @@ is loaded to create class attributes named after the trigrams::
     >>> Trigram.MOUNTAIN
     <Trigram ☶ MOUNTAIN>
 
-The ``Trigram.all`` class attribute is a list holding every trigram::
+The ``Trigram.all`` class attribute provides access to every trigram::
 
     >>> for trigram in Trigram.all:
     ...     print(repr(trigram))
@@ -91,15 +91,14 @@ class Gua:
 
 class Trigram(Gua):
 
-    all = []
     _lines_map = {}
+    all = _lines_map.values()
 
     @classmethod
     def build_all(cls):
         for lines, char, name in TRIGRAM_DATA:
             trigram = Trigram(lines, char, name)
             setattr(cls, name, trigram)
-            cls.all.append(trigram)
             cls._lines_map[tuple(lines)] = trigram
 
     @classmethod
