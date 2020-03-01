@@ -105,7 +105,7 @@ class Changing(Hexagram):
             elif line == 9:
                 line = 8
             new_lines.append(line)
-        return Hexagram.lines_map[tuple(new_lines)]
+        return Hexagram.from_lines(*new_lines)
 
     def draw(self, label=False, line_drawings=LINE_DRAWINGS):
         super().draw(label, line_drawings)

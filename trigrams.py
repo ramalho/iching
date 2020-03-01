@@ -23,6 +23,14 @@ The ``Trigram.all`` class attribute holds every trigram::
     <Trigram ☲ FIRE>
     <Trigram ☱ LAKE>
 
+
+Given 3 line values from bottom to top, where 7 is Yang (closed)
+and 8 is Yin (open), the ``Trigram.from_lines()`` method returns
+a matching trigram:
+
+    >>> Trigram.from_lines(7, 8, 8)
+    <Trigram ☳ THUNDER>
+
 The ``.draw()`` instance method draws a trigram on the console::
 
     >>> Trigram.MOUNTAIN.draw()
@@ -87,6 +95,7 @@ class Gua:
 class Trigram(Gua):
 
     all = []
+    _lines_map = {}
 
     @classmethod
     def build_all(cls):
@@ -94,6 +103,11 @@ class Trigram(Gua):
             trigram = Trigram(lines, char, name)
             setattr(cls, name, trigram)
             cls.all.append(trigram)
+            cls._lines_map[tuple(lines)] = trigram
+
+    @classmethod
+    def from_lines(cls, bottom, middle, top):
+        return cls._lines_map[(bottom, middle, top)]
 
 
 Trigram.build_all()

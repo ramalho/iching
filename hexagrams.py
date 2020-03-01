@@ -24,7 +24,7 @@ order, retrieve it from the class itself (requires Python ≥ 3.7)::
     >>> Hexagram[64]
     <Hexagram 64 ䷿ BEFORE COMPLETION>
 
-The `.draw()` instance method draws an hexagram on the console::
+The ``.draw()`` instance method draws an hexagram on the console::
 
     >>> Hexagram[56].draw()
     ━━━━━━━━━
@@ -44,6 +44,22 @@ The hexagram drawing can have be labeled::
     ━━━   ━━━
     ━━━━━━━━━
 
+The ``.trigrams()`` method returns a tuple of trigrams: (lower, upper).
+
+    >>> Hexagram[22].trigrams()
+    (<Trigram ☲ FIRE>, <Trigram ☶ MOUNTAIN>)
+
+To draw an hexagram from its trigrams, don't forget to reverse the 
+result of ``trigrams()``, to draw the upper trigram first::
+
+    >>> for trigram in reversed(Hexagram[22].trigrams()):
+    ...     trigram.draw(label=True)
+    ━━━━━━━━━ ☶ MOUNTAIN
+    ━━━   ━━━
+    ━━━   ━━━
+    ━━━━━━━━━ ☲ FIRE
+    ━━━   ━━━
+    ━━━━━━━━━
 
 """
 
@@ -70,14 +86,22 @@ NAME_PREFIX = 'HEXAGRAM FOR '
 class Hexagram(Gua):
 
     all = [None] * 64
-    lines_map = {}
+    _lines_map = {}
 
     def __init__(self, lines, char, name, number):
         super().__init__(lines, char, name)
         self.number = number
 
     def __str__(self):
-        return f'{self.number} {self.char} {self.name}'        
+        return f'{self.number} {self.char} {self.name}'
+
+    def trigrams(self):
+        return (Trigram.from_lines(*self.lines[:3]),
+                Trigram.from_lines(*self.lines[3:]))
+
+    @classmethod
+    def from_lines(cls, l1, l2, l3, l4, l5, l6):
+        return cls._lines_map[(l1, l2, l3, l4, l5, l6)]
 
     @classmethod
     def build_all(cls):
@@ -88,7 +112,7 @@ class Hexagram(Gua):
                 name = unicodedata.name(char).replace(NAME_PREFIX, '')
                 hexa = Hexagram(lines, char, name, n)
                 cls.all[n-1] = hexa
-                cls.lines_map[tuple(lines)] = hexa
+                cls._lines_map[tuple(lines)] = hexa
 
     def __class_getitem__(cls, item):
         if not isinstance(item, int) or item < 1 or item > 64:
