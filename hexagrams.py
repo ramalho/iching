@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
 """
-``Hexagram`` represents an I Ching hexagram.
+Class ``Hexagram`` represents an I Ching hexagram.
 
 The ``Hexagram.build_all()`` class method is invoked when the module 
 is loaded to create every ``Hexagram`` instance and store them in
-``Hexagram.all`` in King Wen order.
+the class attribute `Hexagram.all`` — a list in King Wen order.
 
     >>> Hexagram.all[0]
     <Hexagram 1 ䷀ THE CREATIVE HEAVEN>
@@ -24,7 +24,7 @@ order, retrieve it from the class itself (requires Python ≥ 3.7)::
     >>> Hexagram[64]
     <Hexagram 64 ䷿ BEFORE COMPLETION>
 
-The `.draw()` instance method draws an hexagram on the console:
+The `.draw()` instance method draws an hexagram on the console::
 
     >>> Hexagram[56].draw()
     ━━━━━━━━━
@@ -34,7 +34,7 @@ The `.draw()` instance method draws an hexagram on the console:
     ━━━   ━━━
     ━━━   ━━━
 
-The hexagram drawing can have be labeled:
+The hexagram drawing can have be labeled::
 
     >>> Hexagram[22].draw(label=True)
     ━━━━━━━━━ 22 ䷕ GRACE

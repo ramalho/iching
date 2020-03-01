@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 
 """
-Class Trigram represents an I Ching trigram.
+Class ``Trigram`` represents an I Ching trigram.
 
 The ``Trigram.build_all()`` class method is invoked when the module 
 is loaded to create class attributes named after the trigrams,
-and stora a list of them in ``Trigram.all``::
+and store a list of them in ``Trigram.all``::
 
     >>> Trigram.MOUNTAIN
     <Trigram ☶ MOUNTAIN>
 
-The ``Trigram.all`` class generator method yields every trigram:
+The ``Trigram.all`` class generator method yields every trigram::
 
     >>> for trigram in Trigram.all:
     ...     print(repr(trigram))
@@ -23,14 +23,14 @@ The ``Trigram.all`` class generator method yields every trigram:
     <Trigram ☲ FIRE>
     <Trigram ☱ LAKE>
 
-The `.draw()` instance method draws a trigram on the console:
+The ``.draw()`` instance method draws a trigram on the console::
 
     >>> Trigram.MOUNTAIN.draw()
     ━━━━━━━━━
     ━━━   ━━━
     ━━━   ━━━
 
-The trigram drawing can have be labeled:
+The trigram drawing can be labeled::
 
     >>> Trigram.WIND.draw(label=True)
     ━━━━━━━━━ ☴ WIND

@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
 """
-``Changing`` represents an I Ching hexagram with changing lines.
+Class ``Changing`` holds an I Ching hexagram with changing lines.
 It is built from an hexagram and one or more numbers from 1 to 6
 (including) identifying the changing lines::
 
     >>> ch11 = Changing.from_(Hexagram[11], 1, 5)
+    >>> ch11
+    <Changing 11 ䷊ PEACE (1, 5)>
     >>> ch11.draw(label=True)
     ━━━   ━━━ 11 ䷊ PEACE
     ━━━ ⨯ ━━━
@@ -26,8 +28,8 @@ applying the changes::
     ━━━━━━━━━
     ━━━   ━━━
 
-The `.draw_pair()` method draws the changing hexagram and the
-resulting hexagram side-by-side:
+The ``.draw_pair()`` method draws the changing hexagram and the
+resulting hexagram side-by-side::
 
     >>> ch22 = Changing.from_(Hexagram[22], 1, 4)
     >>> ch22
@@ -42,7 +44,7 @@ resulting hexagram side-by-side:
     ━━━   ━━━    ━━━   ━━━
     ━━━━⊖━━━━    ━━━   ━━━
 
-Calling `my_changing.draw_pair(label=True)` outputs labels:
+Calling ``my_changing.draw_pair(label=True)`` outputs labels::
 
     >>> ch52 = Changing.from_(Hexagram[52], 5)
     >>> ch52
