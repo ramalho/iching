@@ -1,15 +1,18 @@
+#!/usr/bin/env python3
+
 """
 Class Trigram represents an I Ching trigram.
 
 The ``Trigram.build_all()`` class method is invoked when the module 
-is loaded to create class attributes named after the trigrams::
+is loaded to create class attributes named after the trigrams,
+and stora a list of them in ``Trigram.all``::
 
     >>> Trigram.MOUNTAIN
     <Trigram ☶ MOUNTAIN>
 
-The ``Trigram.all()`` class generator method yields every trigram:
+The ``Trigram.all`` class generator method yields every trigram:
 
-    >>> for trigram in Trigram.all():
+    >>> for trigram in Trigram.all:
     ...     print(repr(trigram))
     <Trigram ☰ HEAVEN>
     <Trigram ☳ THUNDER>
@@ -22,9 +25,9 @@ The ``Trigram.all()`` class generator method yields every trigram:
 
 The `.draw()` instance method draws a trigram on the console:
 
-    >>> Trigram.WIND.draw()
+    >>> Trigram.MOUNTAIN.draw()
     ━━━━━━━━━
-    ━━━━━━━━━
+    ━━━   ━━━
     ━━━   ━━━
 
 The trigram drawing can have be labeled:
@@ -33,8 +36,6 @@ The trigram drawing can have be labeled:
     ━━━━━━━━━ ☴ WIND
     ━━━━━━━━━
     ━━━   ━━━
-
-
 
 """
 
@@ -59,9 +60,11 @@ TRIGRAM_DATA = (
     [(7, 7, 8), '☱', 'LAKE'],
 )
 
-class Trigram:
+
+class Gua:
+
     def __init__(self, lines, char, name):
-        self.lines = lines[:]
+        self.lines = list(lines)
         self.name = name
         self.char = char
 
@@ -69,35 +72,36 @@ class Trigram:
         return f'{self.char} {self.name}'        
 
     def __repr__(self):
-        return f'<Trigram {self}>'
+        cls_name = type(self).__name__
+        return f'<{cls_name} {self}>'
 
-    @classmethod
-    def build_all(cls):
-        for lines, char, name in TRIGRAM_DATA:
-            setattr(cls, name, Trigram(lines, char, name))
-
-    @classmethod
-    def all(cls):
-        for _, _, name in TRIGRAM_DATA:
-            yield getattr(cls, name)
-
-    def draw(self, label=False):
+    def draw(self, label=False, line_drawings=LINE_DRAWINGS):
         for i, line in enumerate(reversed(self.lines)):
-            drawing = LINE_DRAWINGS[line]
+            drawing = line_drawings[line]
             if label and i == 0:
                 print(drawing, self)
             else:
                 print(drawing)
 
 
+class Trigram(Gua):
+
+    @classmethod
+    def build_all(cls):
+        cls.all = []
+        for lines, char, name in TRIGRAM_DATA:
+            trigram = Trigram(lines, char, name)
+            setattr(cls, name, trigram)
+            cls.all.append(trigram)
+
+
 Trigram.build_all()
 
 
 def demo():
-    for trigram in Trigram.all():
+    for trigram in Trigram.all:
         trigram.draw(True)
         print()
-
 
 
 if __name__ == '__main__':
