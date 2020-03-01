@@ -1,6 +1,42 @@
-from enum import Enum
-from typing import List
+"""
+Class Trigram represents an I Ching trigram.
 
+The ``Trigram.build_all()`` class method is invoked when the module 
+is loaded to create class attributes named after the trigrams::
+
+    >>> Trigram.MOUNTAIN
+    <Trigram ☶ MOUNTAIN>
+
+The ``Trigram.all()`` class generator method yields every trigram:
+
+    >>> for trigram in Trigram.all():
+    ...     print(repr(trigram))
+    <Trigram ☰ HEAVEN>
+    <Trigram ☳ THUNDER>
+    <Trigram ☵ WATER>
+    <Trigram ☶ MOUNTAIN>
+    <Trigram ☷ EARTH>
+    <Trigram ☴ WIND>
+    <Trigram ☲ FIRE>
+    <Trigram ☱ LAKE>
+
+The `.draw()` instance method draws a trigram on the console:
+
+    >>> Trigram.WIND.draw()
+    ━━━━━━━━━
+    ━━━━━━━━━
+    ━━━   ━━━
+
+The trigram drawing can have be labeled:
+
+    >>> Trigram.WIND.draw(label=True)
+    ━━━━━━━━━ ☴ WIND
+    ━━━━━━━━━
+    ━━━   ━━━
+
+
+
+"""
 
 # U+2501  ━  BOX DRAWINGS HEAVY HORIZONTAL
 LINE_DRAWINGS = {
@@ -11,25 +47,20 @@ LINE_DRAWINGS = {
 
 FIRST_TRIGRAM_CODE = 0x2630
 
-
-TRIGRAM_DATA = {
-    'HEAVEN'  : (7, 7, 7),  # ☰
-    'LAKE'    : (7, 7, 8),  # ☱
-    'FIRE'    : (7, 8, 7),  # ☲
-    'THUNDER' : (7, 8, 8),  # ☳
-    'WIND'    : (8, 7, 7),  # ☴
-    'WATER'   : (8, 7, 8),  # ☵
-    'MOUNTAIN': (8, 8, 7),  # ☶
-    'EARTH'   : (8, 8, 8),  # ☷
-}
-
+# line values ordered from bottom to top
+TRIGRAM_DATA = (
+    [(7, 7, 7), '☰', 'HEAVEN'],
+    [(7, 8, 8), '☳', 'THUNDER'],
+    [(8, 7, 8), '☵', 'WATER'],
+    [(8, 8, 7), '☶', 'MOUNTAIN'],
+    [(8, 8, 8), '☷', 'EARTH'],
+    [(8, 7, 7), '☴', 'WIND'],
+    [(7, 8, 7), '☲', 'FIRE'],
+    [(7, 7, 8), '☱', 'LAKE'],
+)
 
 class Trigram:
-
-    def __init__(self, lines: List[int], name, char):
-        if len(lines) != 3:
-            raise ValueError(f'expected 3' + 
-                             f' lines, got {len(lines)}')
+    def __init__(self, lines, char, name):
         self.lines = lines[:]
         self.name = name
         self.char = char
@@ -41,14 +72,14 @@ class Trigram:
         return f'<Trigram {self}>'
 
     @classmethod
-    def generate_all(cls):
-        for i, (name, lines) in enumerate(TRIGRAM_DATA.items()):
-            yield Trigram(lines, name, chr(FIRST_TRIGRAM_CODE + i))
+    def build_all(cls):
+        for lines, char, name in TRIGRAM_DATA:
+            setattr(cls, name, Trigram(lines, char, name))
 
     @classmethod
-    def show_all(cls):
-        for trigram in cls.generate_all():
-            print(repr(trigram))
+    def all(cls):
+        for _, _, name in TRIGRAM_DATA:
+            yield getattr(cls, name)
 
     def draw(self, label=False):
         for i, line in enumerate(reversed(self.lines)):
@@ -58,13 +89,16 @@ class Trigram:
             else:
                 print(drawing)
 
-    @classmethod
-    def draw_all(cls):
-        for trigram in cls.generate_all():
-            trigram.draw(True)
-            print()
+
+Trigram.build_all()
+
+
+def demo():
+    for trigram in Trigram.all():
+        trigram.draw(True)
+        print()
+
 
 
 if __name__ == '__main__':
-    Trigram.show_all()
-    Trigram.draw_all()
+    demo()
