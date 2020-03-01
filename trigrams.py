@@ -86,9 +86,10 @@ class Gua:
 
 class Trigram(Gua):
 
+    all = []
+
     @classmethod
     def build_all(cls):
-        cls.all = []
         for lines, char, name in TRIGRAM_DATA:
             trigram = Trigram(lines, char, name)
             setattr(cls, name, trigram)
