@@ -4,13 +4,12 @@
 Class ``Trigram`` represents an I Ching trigram.
 
 The ``Trigram.build_all()`` class method is invoked when the module 
-is loaded to create class attributes named after the trigrams,
-and store a list of them in ``Trigram.all``::
+is loaded to create class attributes named after the trigrams::
 
     >>> Trigram.MOUNTAIN
     <Trigram ☶ MOUNTAIN>
 
-The ``Trigram.all`` class attribute holds every trigram::
+The ``Trigram.all`` class attribute is a list holding every trigram::
 
     >>> for trigram in Trigram.all:
     ...     print(repr(trigram))
@@ -53,8 +52,6 @@ LINE_DRAWINGS = {
     8: '━━━   ━━━',
 }
 
-
-FIRST_TRIGRAM_CODE = 0x2630
 
 # line values ordered from bottom to top
 TRIGRAM_DATA = (

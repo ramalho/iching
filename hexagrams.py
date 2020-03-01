@@ -50,7 +50,7 @@ The ``.trigrams()`` method returns a tuple of trigrams: (lower, upper).
     (<Trigram ☲ FIRE>, <Trigram ☶ MOUNTAIN>)
 
 To draw an hexagram from its trigrams, don't forget to reverse the 
-result of ``trigrams()``, to draw the upper trigram first::
+result of ``.trigrams()``, to draw the upper trigram first::
 
     >>> for trigram in reversed(Hexagram[22].trigrams()):
     ...     trigram.draw(label=True)
