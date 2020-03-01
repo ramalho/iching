@@ -10,7 +10,7 @@ and store a list of them in ``Trigram.all``::
     >>> Trigram.MOUNTAIN
     <Trigram ☶ MOUNTAIN>
 
-The ``Trigram.all`` class generator method yields every trigram::
+The ``Trigram.all`` class attribute holds every trigram::
 
     >>> for trigram in Trigram.all:
     ...     print(repr(trigram))
