@@ -46,20 +46,20 @@ resulting hexagram side-by-side::
 
 Calling ``my_changing.draw_pair(label=True)`` outputs labels::
 
-    >>> ch52 = Changing.from_(Hexagram[52], 5)
-    >>> ch52
-    <Changing 52 ䷳ THE KEEPING STILL MOUNTAIN (5)>
-    >>> ch52.to()
-    <Hexagram 53 ䷴ DEVELOPMENT>
-    >>> ch52.draw_pair(label=True)
-    ━━━━━━━━━                         ━━━━━━━━━
-    ━━━ ⨯ ━━━                         ━━━━━━━━━
+    >>> ch3 = Changing.from_(Hexagram[3], 5)
+    >>> ch3
+    <Changing 3 ䷂ DIFFICULTY AT THE BEGINNING (5)>
+    >>> ch3.to()
+    <Hexagram 24 ䷗ RETURN>
+    >>> ch3.draw_pair(label=True)
+    ━━━   ━━━                         ━━━   ━━━
+    ━━━━⊖━━━━                         ━━━   ━━━
+    ━━━   ━━━                         ━━━   ━━━
+    ━━━   ━━━                         ━━━   ━━━
     ━━━   ━━━                         ━━━   ━━━
     ━━━━━━━━━                         ━━━━━━━━━
-    ━━━   ━━━                         ━━━   ━━━
-    ━━━   ━━━                         ━━━   ━━━
-    52 ䷳ THE KEEPING STILL MOUNTAIN   53 ䷴ DEVELOPMENT
-    
+    3 ䷂ DIFFICULTY AT THE BEGINNING   24 ䷗ RETURN
+
 """
 
 from hexagrams import Hexagram
