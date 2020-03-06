@@ -50,7 +50,7 @@ The ``.trigrams()`` method returns a tuple of trigrams: (lower, upper).
     (<Trigram ☲ FIRE>, <Trigram ☶ MOUNTAIN>)
 
 To draw an hexagram from its trigrams, don't forget to reverse the 
-result of ``trigrams()``, to draw the upper trigram first::
+result of ``.trigrams()``, to draw the upper trigram first::
 
     >>> for trigram in reversed(Hexagram[22].trigrams()):
     ...     trigram.draw(label=True)
@@ -85,8 +85,8 @@ NAME_PREFIX = 'HEXAGRAM FOR '
 
 class Hexagram(Gua):
 
-    all = [None] * 64
     _lines_map = {}
+    all = [None] * 64
 
     def __init__(self, lines, char, name, number):
         super().__init__(lines, char, name)
@@ -111,8 +111,8 @@ class Hexagram(Gua):
                 char = chr(FIRST_HEXAGRAM + n - 1)
                 name = unicodedata.name(char).replace(NAME_PREFIX, '')
                 hexa = Hexagram(lines, char, name, n)
-                cls.all[n-1] = hexa
                 cls._lines_map[tuple(lines)] = hexa
+                cls.all[n-1] = hexa
 
     def __class_getitem__(cls, item):
         if not isinstance(item, int) or item < 1 or item > 64:
