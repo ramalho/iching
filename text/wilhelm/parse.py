@@ -2,8 +2,8 @@ import re
 import html
 
 
-hexagram_start = re.compile(r'<a name="\d{1,2}"></a>')
-title_parts = re.compile(r'(\d{1,2})\. ([^\n]+)')
+hexagram_start_re = re.compile(r'<a name="\d{1,2}"></a>')
+title_parts_re = re.compile(r'(\d{1,2})\. ([^\n]+)')
 
 dingbats = [chr(i) for i in range(0x278A, 0x2793)]  # dingbat 1 to 9
 
@@ -26,10 +26,10 @@ def capture_line(n, verse):
 def main():
     with open('i.html', encoding='cp1252') as fp:
         text = fp.read()
-    chapters = hexagram_start.split(html.unescape(text))
+    chapters = hexagram_start_re.split(html.unescape(text))
     for i, chapter in enumerate(chapters[1:], 1):
         verses = chapter.split('\n')
-        hit = title_parts.search(verses[1])
+        hit = title_parts_re.search(verses[1])
         n, title = hit.groups(verses[1])
         title_wg, title_en = (s.strip() for s in title.split('/'))
         assert i == int(n)
@@ -43,6 +43,16 @@ def main():
                 verse = next(iter_verses)
             except StopIteration:
                 break
+            if 'THE JUDGMENT' in verse:
+                while True:
+                    verse = next(iter_verses)
+                    verse = next(iter_verses)
+                    if verse.startswith('\t') or verse.startswith(' '*3):
+                        if verse:
+                            print('\t> '+ verse.strip())
+                    else:
+                        print()
+                        break
             for n in range(1, 7):
                 hit = capture_line(n, verse)
                 if hit is not None:
