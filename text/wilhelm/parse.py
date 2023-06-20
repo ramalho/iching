@@ -1,6 +1,7 @@
 import re
 import html
 
+FIRST_HEXAGRAM = 0x4DC0
 
 hexagram_start_re = re.compile(r'<a name="\d{1,2}"></a>')
 title_parts_re = re.compile(r'(\d{1,2})\. ([^\n]+)')
@@ -34,7 +35,8 @@ def main():
         title_wg, title_en = (s.strip() for s in title.split('/'))
         assert i == int(n)
         print('_' * 60)
-        print(f'{n:2}\t{title_wg:16} {title_en}')
+        hex_char = chr(FIRST_HEXAGRAM + int(n) - 1)
+        print(f'{n:2}\t{hex_char} {title_wg:16} {title_en}')
         print()
         line_matches = 0
         iter_verses = iter(verses[2:])
@@ -48,8 +50,10 @@ def main():
                     verse = next(iter_verses)
                     verse = next(iter_verses)
                     if verse.startswith('\t') or verse.startswith(' '*3):
-                        if verse:
+                        if verse.strip():
                             print('\t> '+ verse.strip())
+                        else:
+                            break
                     else:
                         print()
                         break
@@ -65,8 +69,11 @@ def main():
                     print(verse)
                     while verse.startswith('\t'):
                         verse = next(iter_verses)
-                        print('\t\t'+verse.strip())
-                    
+                        if verse.strip():
+                            print('\t\t  '+verse.strip())
+                        else:
+                            break
+
         if line_matches != 6:
             raise ValueError('!!! missing line text')
 

@@ -3,19 +3,12 @@
 """
 Class ``Hexagram`` represents an I Ching hexagram.
 
-The ``Hexagram.build_all()`` class method is invoked when the module 
+The ``Hexagram.build_all()`` class method is invoked when the module
 is loaded to create every ``Hexagram`` instance and store them in
 the class attribute `Hexagram.all`` — a list in King Wen order.
 
-    >>> Hexagram.all[0]
-    <Hexagram 1 ䷀ THE CREATIVE HEAVEN>
-    >>> Hexagram.all[1]
-    <Hexagram 2 ䷁ THE RECEPTIVE EARTH>
-    >>> Hexagram.all[63]
-    <Hexagram 64 ䷿ BEFORE COMPLETION>
-
 To get an hexagram using its traditional number in the King Wen
-order, retrieve it from the class itself (requires Python ≥ 3.7)::
+order, retrieve it from the class itself::
 
     >>> Hexagram[1]
     <Hexagram 1 ䷀ THE CREATIVE HEAVEN>
@@ -49,7 +42,7 @@ The ``.trigrams()`` method returns a tuple of trigrams: (lower, upper).
     >>> Hexagram[22].trigrams()
     (<Trigram ☲ FIRE>, <Trigram ☶ MOUNTAIN>)
 
-To draw an hexagram from its trigrams, don't forget to reverse the 
+To draw an hexagram from its trigrams, don't forget to reverse the
 result of ``.trigrams()``, to draw the upper trigram first::
 
     >>> for trigram in reversed(Hexagram[22].trigrams()):
@@ -68,11 +61,11 @@ import unicodedata
 from trigrams import Gua, Trigram
 
 LOOKUP_TABLE = [
-    # ☰   ☳   ☵   ☶   ☷   ☴   ☲   ☱ 
+    # ☰   ☳   ☵   ☶   ☷   ☴   ☲   ☱
     ( 1, 34,  5, 26, 11,  9, 14, 43), # ☰
     (25, 51,  3, 27, 24, 42, 21, 17), # ☳
     ( 6, 40, 29,  4,  7, 59, 64, 47), # ☵
-    (33, 62, 39, 52, 15, 53, 56, 31), # ☶ 
+    (33, 62, 39, 52, 15, 53, 56, 31), # ☶
     (12, 16,  8, 23,  2, 20, 35, 45), # ☷
     (44, 32, 48, 18, 46, 57, 50, 28), # ☴
     (13, 55, 63, 22, 36, 37, 30, 49), # ☲
