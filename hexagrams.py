@@ -19,7 +19,7 @@ order, retrieve it from the class itself::
 
 The ``.draw()`` instance method draws an hexagram on the console::
 
-    >>> Hexagram[56].draw()
+    >>> print(Hexagram[56].draw())
     ━━━━━━━━━
     ━━━   ━━━
     ━━━━━━━━━
@@ -29,7 +29,7 @@ The ``.draw()`` instance method draws an hexagram on the console::
 
 The hexagram drawing can have be labeled::
 
-    >>> Hexagram[22].draw(label=True)
+    >>> print(Hexagram[22].draw(label=True))
     ━━━━━━━━━ 22 ䷕ GRACE
     ━━━   ━━━
     ━━━   ━━━
@@ -46,7 +46,7 @@ To draw an hexagram from its trigrams, don't forget to reverse the
 result of ``.trigrams()``, to draw the upper trigram first::
 
     >>> for trigram in reversed(Hexagram[22].trigrams()):
-    ...     trigram.draw(label=True)
+    ...     print(trigram.draw(label=True))
     ━━━━━━━━━ ☶ MOUNTAIN
     ━━━   ━━━
     ━━━   ━━━
@@ -78,33 +78,33 @@ NAME_PREFIX = 'HEXAGRAM FOR '
 
 class Hexagram(Gua):
 
-    _lines_map = {}
+    _yao_map = {}
     all = [None] * 64
 
-    def __init__(self, lines, char, name, number):
-        super().__init__(lines, char, name)
+    def __init__(self, yaos, char, name, number):
+        super().__init__(yaos, char, name)
         self.number = number
 
     def __str__(self):
         return f'{self.number} {self.char} {self.name}'
 
     def trigrams(self):
-        return (Trigram.from_lines(*self.lines[:3]),
-                Trigram.from_lines(*self.lines[3:]))
+        return (Trigram.from_yaos(*self.yaos[:3]),
+                Trigram.from_yaos(*self.yaos[3:]))
 
     @classmethod
-    def from_lines(cls, l1, l2, l3, l4, l5, l6):
-        return cls._lines_map[(l1, l2, l3, l4, l5, l6)]
+    def from_yaos(cls, l1, l2, l3, l4, l5, l6):
+        return cls._yao_map[(l1, l2, l3, l4, l5, l6)]
 
     @classmethod
     def build_all(cls):
         for row, lower_tri in zip(LOOKUP_TABLE, Trigram.all):
             for n, upper_tri in zip(row, Trigram.all):
-                lines = lower_tri.lines + upper_tri.lines
+                lines = lower_tri.yaos + upper_tri.yaos
                 char = chr(FIRST_HEXAGRAM + n - 1)
                 name = unicodedata.name(char).replace(NAME_PREFIX, '')
                 hexa = Hexagram(lines, char, name, n)
-                cls._lines_map[tuple(lines)] = hexa
+                cls._yao_map[tuple(lines)] = hexa
                 cls.all[n-1] = hexa
 
     def __class_getitem__(cls, item):
@@ -122,7 +122,7 @@ def demo():
         print(f'{indent}{Hexagram[n]}')
     print()
 
-    gutter = '   '
+    gutter = ' ' * 3
     print(' ', *(t.char for t in Trigram.all), sep=gutter)
     print()
     for row, tri in zip(LOOKUP_TABLE, Trigram.all):
